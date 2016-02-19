@@ -13,9 +13,19 @@ use RuntimeException;
  */
 final class StatusCode
 {
+    /**
+     * @var int
+     */
     private $statusCode;
+
+    /**
+     * @var string
+     */
     private $reasonPhrase;
 
+    /**
+     * @var array
+     */
     private static $phraseMap = [
         100 => 'Continue',
         101 => 'Switching Protocols',

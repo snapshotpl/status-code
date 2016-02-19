@@ -5,6 +5,7 @@ namespace Snapshotpl\StatusCode\Test;
 use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
 use Snapshotpl\StatusCode\StatusCode;
+use Zend\Diactoros\Response;
 
 /**
  * StatusCodeTest
@@ -215,7 +216,7 @@ class StatusCodeTest extends PHPUnit_Framework_TestCase
 
     public function testSetToResponse()
     {
-        $response = new \Zend\Diactoros\Response();
+        $response = new Response();
 
         $statusCode = new StatusCode(599, 'Custom Reason');
         $newResponse = $statusCode->attachToResponse($response);
@@ -226,7 +227,7 @@ class StatusCodeTest extends PHPUnit_Framework_TestCase
 
     public function testCreateFromResponse()
     {
-        $response = new \Zend\Diactoros\Response();
+        $response = new Response();
 
         $statusCode = StatusCode::createFromResponse($response);
 

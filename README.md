@@ -1,7 +1,7 @@
-# status-code
+# status-code [![Build Status](https://travis-ci.org/snapshotpl/status-code.svg?branch=master)](https://travis-ci.org/snapshotpl/status-code)
 HTTP status code value object implementation in PHP.
 
-Features:
+## Features
 * validation,
 * auto setup reason phrase (if known),
 * immutable,
@@ -22,3 +22,43 @@ Supported RFCs:
 
 Supported drafts:
 * https://tools.ietf.org/html/draft-ietf-httpbis-legally-restricted-status-04
+
+## Installation
+
+Add to composer:
+
+```json
+{
+    "require": {
+        "snapshotpl/status-code": "^1.0"
+    }
+}
+```
+
+## Usage
+
+```php
+$statusCode = new StatusCode(404);
+
+$statusCode->isClientError(); // true
+$statusCode->isRfc2516() // true
+$statusCode->isServerError(); // false
+
+echo $statusCode; // 404 Not Found
+```
+
+You can use it with anny PSR-7 implementation:
+
+```php
+$response = new Zend\Diactoros\Response();
+$statusCode = StatusCode::createFromResponse($response);
+echo $statusCode; // 200 OK
+```
+
+```php
+$response = new Zend\Diactoros\Response();
+$statusCode = new StatusCode(404, 'Not exists');
+$newResponse = $statusCode->attachToResponse($response);
+echo $newResponse->getStatusCode(); // 404
+echo $newResponse->getReasonPhrase(); // Not exists
+```
