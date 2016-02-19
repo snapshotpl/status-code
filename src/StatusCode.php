@@ -189,7 +189,7 @@ final class StatusCode
      */
     public function isServerError()
     {
-        return $this->statusCode > 500;
+        return $this->statusCode >= 500;
     }
 
     /**
@@ -239,15 +239,11 @@ final class StatusCode
      *
      * @return self New instance
      */
-    public function changeReasonPhraseToDefault()
+    public function restoreReasonPhraseToDefault()
     {
         $cloned = clone $this;
 
-        if (!isset(self::$phraseMap[$statusCode])) {
-            throw new RuntimeException('This status code has not defined default status code');
-        }
-
-        $cloned->reasonPhrase = self::$phraseMap[$statusCode];
+        $cloned->reasonPhrase = isset(self::$phraseMap[$this->statusCode]) ? self::$phraseMap[$this->statusCode] : '';
 
         return $cloned;
     }
@@ -257,7 +253,7 @@ final class StatusCode
      *
      * @return ResponseInterface New instance
      */
-    public function setToResponse(ResponseInterface $response)
+    public function attachToResponse(ResponseInterface $response)
     {
         return $response->withStatus($this->statusCode, $this->reasonPhrase);
     }
